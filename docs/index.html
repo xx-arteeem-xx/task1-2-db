@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Лабораторная работа — Python + SQLite | Фирсов Артем</title>
+  <title>Лабораторная работа — Python + Базы данных | Фирсов Артем</title>
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
@@ -12,8 +12,8 @@
 <header class="site-header">
   <img src="./logo.png" alt="Логотип" class="logo" />
   <div>
-    <div class="header-title">Лабораторная работа — Python + SQLite</div>
-    <div class="header-sub">Работа с базами данных | Фирсов Артем · ИС302 · НГУЭУ</div>
+    <div class="header-title">Лабораторная работа — Python + Базы данных</div>
+    <div class="header-sub">sqlite3 · SQLAlchemy ORM | Фирсов Артем · ИС302 · НГУЭУ</div>
   </div>
 </header>
 
@@ -22,8 +22,8 @@
   <!-- ==================== HERO ==================== -->
   <div class="hero card">
     <span class="section-kicker">Лабораторная работа</span>
-    <h1>Работа с базами данных SQLite на Python</h1>
-    <p class="hero-sub">Реализация SELECT-запросов и операций модификации данных с использованием стандартной библиотеки sqlite3</p>
+    <h1>Работа с базами данных на Python</h1>
+    <p class="hero-sub">SELECT-запросы и модификация данных через sqlite3 · ORM-модели с SQLAlchemy</p>
     <div class="author-chip">
       Фирсов Артем
       <span class="sep">·</span>
@@ -47,11 +47,11 @@
       </div>
       <div class="info-cell">
         <div class="label">СУБД</div>
-        <div class="value">SQLite</div>
+        <div class="value">SQLite / ORM</div>
       </div>
       <div class="info-cell">
         <div class="label">Задач всего</div>
-        <div class="value">15</div>
+        <div class="value">23</div>
       </div>
       <div class="info-cell">
         <div class="label">Набор №1</div>
@@ -61,11 +61,16 @@
         <div class="label">Набор №2</div>
         <div class="value">10 (DML)</div>
       </div>
+      <div class="info-cell">
+        <div class="label">Набор №3</div>
+        <div class="value">8 (ORM)</div>
+      </div>
     </div>
-    <p>Все задачи реализованы на Python с использованием стандартного модуля <code>sqlite3</code>.
+    <p>Задачи №1 и №2 реализованы на Python с использованием стандартного модуля <code>sqlite3</code>.
     Задачи №1 выполняют SELECT-запросы к базам данных <code>films.db</code> и <code>music.db</code>.
     Задачи №2 реализуют функции <code>get_result(name)</code> для модификации данных (INSERT/UPDATE/DELETE),
-    а также интерактивные системы регистрации и авторизации пользователей.</p>
+    а также системы регистрации и авторизации пользователей.
+    Задачи №3 реализованы с использованием ORM-библиотеки <code>SQLAlchemy</code>: определение моделей, создание таблиц, добавление и выборка данных с фильтрацией.</p>
   </div>
 
   <!-- ==================== ОПИСАНИЕ ЗАДАНИЯ ==================== -->
@@ -97,6 +102,19 @@
       <li>2.9 — Система регистрации пользователей с проверкой уникальности</li>
       <li>2.10 — Система авторизации с конкретными сообщениями об ошибках</li>
     </ul>
+
+    <h3>Задачи №3 — ORM с SQLAlchemy</h3>
+    <p>Задачи реализуются последовательно: каждая опирается на результаты предыдущей. База данных <code>library.db</code> создаётся автоматически.</p>
+    <ul style="color:var(--text);padding-left:1.5rem;margin-bottom:0;line-height:2">
+      <li>3.1 — Создать модель <code>Author</code> (id, name, country, avatar_url)</li>
+      <li>3.2 — Добавить трёх авторов: Лев Толстой, Джордж Оруэлл, Марк Твен</li>
+      <li>3.3 — Функция <code>print_authors()</code>: вывод всех авторов</li>
+      <li>3.4 — Функция <code>print_authors()</code>: вывод только авторов из России</li>
+      <li>3.5 — Создать модель <code>Book</code> (id, title, pages, year, rating, price, author_id)</li>
+      <li>3.6 — Добавить три книги: «Война и мир», «Преступление и наказание», «1984»</li>
+      <li>3.7 — Функция <code>print_books()</code>: вывод всех книг</li>
+      <li>3.8 — Функция <code>print_books()</code>: вывод книг после 1860 г. стоимостью ≤ 300 руб.</li>
+    </ul>
   </div>
 
   <!-- ==================== ХОД ВЫПОЛНЕНИЯ ==================== -->
@@ -122,7 +140,11 @@
       </li>
       <li>
         <span class="check">✓</span>
-        <span>Настроена Docker-среда: Dockerfile, docker-compose.yml, скрипт <code>run_all.sh</code> для последовательного запуска всех 15 задач с тестовыми данными</span>
+        <span>Написаны 8 скриптов для задач №3 с использованием SQLAlchemy ORM: модели <code>Author</code> и <code>Book</code>, добавление данных через сессии, выборка с фильтрацией</span>
+      </li>
+      <li>
+        <span class="check">✓</span>
+        <span>Настроена Docker-среда: Dockerfile (с установкой SQLAlchemy), docker-compose.yml, скрипт <code>run_all.sh</code> для последовательного запуска всех 23 задач с тестовыми данными</span>
       </li>
       <li>
         <span class="check">✓</span>
@@ -996,6 +1018,507 @@ if __name__ == '__main__':
     </div>
 
   </div><!-- /tasks-grid -->
+
+  <!-- ==================== ЗАДАЧИ №3 ==================== -->
+  <div class="section-title">
+    <h2>Задачи №3 — ORM с SQLAlchemy</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="tasks-grid">
+
+    <!-- Task 3.1 -->
+    <div class="task-card" id="t3-1">
+      <div class="task-header" onclick="toggleTask('t3-1')">
+        <div class="task-num">3.1</div>
+        <div class="task-title">Создание модели Author</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t3-1">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t3-1','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t3-1','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t3-1','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t3-1-desc">
+          <p class="task-desc">Создать модель <code>Author</code>, представляющую таблицу в базе данных. Поля: <strong>id</strong> (первичный ключ), <strong>name</strong> (имя автора), <strong>country</strong> (страна), <strong>avatar_url</strong> (ссылка на изображение). Таблица создаётся автоматически через <code>Base.metadata.create_all()</code>.</p>
+        </div>
+        <div class="tab-panel" id="t3-1-code">
+<pre>import os
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import declarative_base
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'library.db')
+
+Base = declarative_base()
+
+
+class Author(Base):
+    __tablename__ = 'authors'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    country = Column(String, nullable=False)
+    avatar_url = Column(String, nullable=True)
+
+
+engine = create_engine(f'sqlite:///{DB_PATH}')
+Base.metadata.create_all(engine)
+print("Таблица 'authors' создана.")</pre>
+        </div>
+        <div class="tab-panel" id="t3-1-out">
+          <div class="output-block">Таблица 'authors' создана.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 3.2 -->
+    <div class="task-card" id="t3-2">
+      <div class="task-header" onclick="toggleTask('t3-2')">
+        <div class="task-num">3.2</div>
+        <div class="task-title">Добавление трёх авторов в базу данных</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t3-2">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t3-2','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t3-2','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t3-2','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t3-2-desc">
+          <p class="task-desc">Написать код, который добавляет трёх авторов в базу данных через сессию SQLAlchemy:</p>
+          <ul style="color:var(--text);padding-left:1.5rem;margin-top:0.5rem;line-height:1.9">
+            <li>Лев Толстой — Россия</li>
+            <li>Джордж Оруэлл — Великобритания</li>
+            <li>Марк Твен — США</li>
+          </ul>
+        </div>
+        <div class="tab-panel" id="t3-2-code">
+<pre>import os
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import declarative_base, Session
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'library.db')
+
+Base = declarative_base()
+
+
+class Author(Base):
+    __tablename__ = 'authors'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    country = Column(String, nullable=False)
+    avatar_url = Column(String, nullable=True)
+
+
+engine = create_engine(f'sqlite:///{DB_PATH}')
+Base.metadata.create_all(engine)
+
+with Session(engine) as session:
+    authors = [
+        Author(name='Лев Толстой', country='Россия',
+               avatar_url='https://example.com/tolstoy.jpg'),
+        Author(name='Джордж Оруэлл', country='Великобритания',
+               avatar_url='https://example.com/orwell.jpg'),
+        Author(name='Марк Твен', country='США',
+               avatar_url='https://example.com/twain.jpg'),
+    ]
+    session.add_all(authors)
+    session.commit()
+
+print("Три автора добавлены в базу данных.")</pre>
+        </div>
+        <div class="tab-panel" id="t3-2-out">
+          <div class="output-block">Три автора добавлены в базу данных.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 3.3 -->
+    <div class="task-card" id="t3-3">
+      <div class="task-header" onclick="toggleTask('t3-3')">
+        <div class="task-num">3.3</div>
+        <div class="task-title">Вывод всех авторов</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t3-3">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t3-3','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t3-3','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t3-3','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t3-3-desc">
+          <p class="task-desc">Написать функцию <code>print_authors()</code>, которая запрашивает из базы данных всех авторов и выводит их в формате:<br><code>Имя: Лев Толстой, Страна: Россия</code></p>
+        </div>
+        <div class="tab-panel" id="t3-3-code">
+<pre>import os
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import declarative_base, Session
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'library.db')
+
+Base = declarative_base()
+
+
+class Author(Base):
+    __tablename__ = 'authors'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    country = Column(String, nullable=False)
+    avatar_url = Column(String, nullable=True)
+
+
+engine = create_engine(f'sqlite:///{DB_PATH}')
+Base.metadata.create_all(engine)
+
+
+def print_authors():
+    with Session(engine) as session:
+        authors = session.query(Author).all()
+        for author in authors:
+            print(f'Имя: {author.name}, Страна: {author.country}')
+
+
+print_authors()</pre>
+        </div>
+        <div class="tab-panel" id="t3-3-out">
+          <div class="output-block">Имя: Лев Толстой, Страна: Россия
+Имя: Джордж Оруэлл, Страна: Великобритания
+Имя: Марк Твен, Страна: США</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 3.4 -->
+    <div class="task-card" id="t3-4">
+      <div class="task-header" onclick="toggleTask('t3-4')">
+        <div class="task-num">3.4</div>
+        <div class="task-title">Вывод авторов из России</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t3-4">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t3-4','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t3-4','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t3-4','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t3-4-desc">
+          <p class="task-desc">Написать функцию <code>print_authors()</code>, которая запрашивает из базы данных только авторов из <strong>России</strong> и выводит их в том же формате. Используется метод <code>filter()</code>.</p>
+        </div>
+        <div class="tab-panel" id="t3-4-code">
+<pre>import os
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import declarative_base, Session
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'library.db')
+
+Base = declarative_base()
+
+
+class Author(Base):
+    __tablename__ = 'authors'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    country = Column(String, nullable=False)
+    avatar_url = Column(String, nullable=True)
+
+
+engine = create_engine(f'sqlite:///{DB_PATH}')
+Base.metadata.create_all(engine)
+
+
+def print_authors():
+    with Session(engine) as session:
+        authors = session.query(Author).filter(Author.country == 'Россия').all()
+        for author in authors:
+            print(f'Имя: {author.name}, Страна: {author.country}')
+
+
+print_authors()</pre>
+        </div>
+        <div class="tab-panel" id="t3-4-out">
+          <div class="output-block">Имя: Лев Толстой, Страна: Россия</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 3.5 -->
+    <div class="task-card" id="t3-5">
+      <div class="task-header" onclick="toggleTask('t3-5')">
+        <div class="task-num">3.5</div>
+        <div class="task-title">Создание модели Book</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t3-5">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t3-5','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t3-5','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t3-5','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t3-5-desc">
+          <p class="task-desc">Создать модель <code>Book</code>, представляющую таблицу книг. Поля: <strong>id</strong>, <strong>title</strong> (название), <strong>pages</strong> (страниц), <strong>year</strong> (год издания), <strong>rating</strong> (рейтинг, float), <strong>price</strong> (цена, float), <strong>author_id</strong> (ID автора).</p>
+        </div>
+        <div class="tab-panel" id="t3-5-code">
+<pre>import os
+from sqlalchemy import create_engine, Column, Integer, String, Float
+from sqlalchemy.orm import declarative_base
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'library.db')
+
+Base = declarative_base()
+
+
+class Author(Base):
+    __tablename__ = 'authors'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    country = Column(String, nullable=False)
+    avatar_url = Column(String, nullable=True)
+
+
+class Book(Base):
+    __tablename__ = 'books'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, nullable=False)
+    pages = Column(Integer, nullable=False)
+    year = Column(Integer, nullable=False)
+    rating = Column(Float, nullable=True)
+    price = Column(Float, nullable=True)
+    author_id = Column(Integer, nullable=True)
+
+
+engine = create_engine(f'sqlite:///{DB_PATH}')
+Base.metadata.create_all(engine)
+print("Таблица 'books' создана.")</pre>
+        </div>
+        <div class="tab-panel" id="t3-5-out">
+          <div class="output-block">Таблица 'books' создана.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 3.6 -->
+    <div class="task-card" id="t3-6">
+      <div class="task-header" onclick="toggleTask('t3-6')">
+        <div class="task-num">3.6</div>
+        <div class="task-title">Добавление трёх книг в базу данных</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t3-6">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t3-6','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t3-6','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t3-6','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t3-6-desc">
+          <p class="task-desc">Написать код, который добавляет три книги в базу данных:</p>
+          <ul style="color:var(--text);padding-left:1.5rem;margin-top:0.5rem;line-height:1.9">
+            <li>«Война и мир» — 1225 стр., 1869 г., рейтинг 4.8, цена 350.50 руб.</li>
+            <li>«Преступление и наказание» — 500 стр., 1866 г., рейтинг 4.7, цена 270.00 руб.</li>
+            <li>«1984» — 328 стр., 1949 г., рейтинг 4.9, цена 450.00 руб.</li>
+          </ul>
+        </div>
+        <div class="tab-panel" id="t3-6-code">
+<pre>import os
+from sqlalchemy import create_engine, Column, Integer, String, Float
+from sqlalchemy.orm import declarative_base, Session
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'library.db')
+
+Base = declarative_base()
+
+
+class Author(Base):
+    __tablename__ = 'authors'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    country = Column(String, nullable=False)
+    avatar_url = Column(String, nullable=True)
+
+
+class Book(Base):
+    __tablename__ = 'books'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, nullable=False)
+    pages = Column(Integer, nullable=False)
+    year = Column(Integer, nullable=False)
+    rating = Column(Float, nullable=True)
+    price = Column(Float, nullable=True)
+    author_id = Column(Integer, nullable=True)
+
+
+engine = create_engine(f'sqlite:///{DB_PATH}')
+Base.metadata.create_all(engine)
+
+with Session(engine) as session:
+    books = [
+        Book(title='Война и мир', pages=1225, year=1869,
+             rating=4.8, price=350.50, author_id=1),
+        Book(title='Преступление и наказание', pages=500, year=1866,
+             rating=4.7, price=270.00, author_id=1),
+        Book(title='1984', pages=328, year=1949,
+             rating=4.9, price=450.00, author_id=2),
+    ]
+    session.add_all(books)
+    session.commit()
+
+print("Три книги добавлены в базу данных.")</pre>
+        </div>
+        <div class="tab-panel" id="t3-6-out">
+          <div class="output-block">Три книги добавлены в базу данных.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 3.7 -->
+    <div class="task-card" id="t3-7">
+      <div class="task-header" onclick="toggleTask('t3-7')">
+        <div class="task-num">3.7</div>
+        <div class="task-title">Вывод всех книг</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t3-7">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t3-7','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t3-7','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t3-7','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t3-7-desc">
+          <p class="task-desc">Написать функцию <code>print_books()</code>, которая запрашивает все книги и выводит их в формате:<br><code>"Война и мир" [1869] 1225 стр. (В среднем 350.5 руб за шт.)</code></p>
+        </div>
+        <div class="tab-panel" id="t3-7-code">
+<pre>import os
+from sqlalchemy import create_engine, Column, Integer, String, Float
+from sqlalchemy.orm import declarative_base, Session
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'library.db')
+
+Base = declarative_base()
+
+
+class Author(Base):
+    __tablename__ = 'authors'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    country = Column(String, nullable=False)
+    avatar_url = Column(String, nullable=True)
+
+
+class Book(Base):
+    __tablename__ = 'books'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, nullable=False)
+    pages = Column(Integer, nullable=False)
+    year = Column(Integer, nullable=False)
+    rating = Column(Float, nullable=True)
+    price = Column(Float, nullable=True)
+    author_id = Column(Integer, nullable=True)
+
+
+engine = create_engine(f'sqlite:///{DB_PATH}')
+Base.metadata.create_all(engine)
+
+
+def print_books():
+    with Session(engine) as session:
+        books = session.query(Book).all()
+        for book in books:
+            print(f'"{book.title}" [{book.year}] {book.pages} стр. '
+                  f'(В среднем {book.price} руб за шт.)')
+
+
+print_books()</pre>
+        </div>
+        <div class="tab-panel" id="t3-7-out">
+          <div class="output-block">"Война и мир" [1869] 1225 стр. (В среднем 350.5 руб за шт.)
+"Преступление и наказание" [1866] 500 стр. (В среднем 270.0 руб за шт.)
+"1984" [1949] 328 стр. (В среднем 450.0 руб за шт.)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 3.8 -->
+    <div class="task-card" id="t3-8">
+      <div class="task-header" onclick="toggleTask('t3-8')">
+        <div class="task-num">3.8</div>
+        <div class="task-title">Вывод книг после 1860 г. стоимостью до 300 руб.</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t3-8">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t3-8','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t3-8','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t3-8','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t3-8-desc">
+          <p class="task-desc">Написать функцию <code>print_books()</code>, которая выводит книги с условием: <strong>год издания после 1860</strong> И <strong>цена не более 300 рублей</strong>. Используется цепочка условий в <code>filter()</code>.</p>
+        </div>
+        <div class="tab-panel" id="t3-8-code">
+<pre>import os
+from sqlalchemy import create_engine, Column, Integer, String, Float
+from sqlalchemy.orm import declarative_base, Session
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'library.db')
+
+Base = declarative_base()
+
+
+class Author(Base):
+    __tablename__ = 'authors'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    country = Column(String, nullable=False)
+    avatar_url = Column(String, nullable=True)
+
+
+class Book(Base):
+    __tablename__ = 'books'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, nullable=False)
+    pages = Column(Integer, nullable=False)
+    year = Column(Integer, nullable=False)
+    rating = Column(Float, nullable=True)
+    price = Column(Float, nullable=True)
+    author_id = Column(Integer, nullable=True)
+
+
+engine = create_engine(f'sqlite:///{DB_PATH}')
+Base.metadata.create_all(engine)
+
+
+def print_books():
+    with Session(engine) as session:
+        books = (
+            session.query(Book)
+            .filter(Book.year > 1860, Book.price &lt;= 300)
+            .all()
+        )
+        for book in books:
+            print(f'"{book.title}" [{book.year}] {book.pages} стр. '
+                  f'(В среднем {book.price} руб за шт.)')
+
+
+print_books()</pre>
+        </div>
+        <div class="tab-panel" id="t3-8-out">
+          <div class="output-block">"Преступление и наказание" [1866] 500 стр. (В среднем 270.0 руб за шт.)</div>
+          <p class="output-note">Условие: год &gt; 1860 И цена ≤ 300 руб. Подходит только «Преступление и наказание» (270.0 руб). «Война и мир» (350.5) и «1984» (450.0) стоят дороже 300 руб.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tasks-grid task3 -->
 
 </main>
 

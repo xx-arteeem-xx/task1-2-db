@@ -1,5 +1,35 @@
 # CHANGELOG
 
+## [v1.1.0] — 2026-05-21
+
+Добавлены задачи №3 (ORM с SQLAlchemy).
+
+### Добавлено
+
+#### Задачи №3 — ORM с SQLAlchemy
+
+- **task3/task1.py** — модель `Author` (поля: id, name, country, avatar_url); создание таблицы `authors` через `Base.metadata.create_all()`
+- **task3/task2.py** — добавление трёх авторов (Лев Толстой, Джордж Оруэлл, Марк Твен) через `session.add_all()` и `session.commit()`
+- **task3/task3.py** — функция `print_authors()`: вывод всех авторов в формате `Имя: ..., Страна: ...`
+- **task3/task4.py** — функция `print_authors()`: вывод авторов только из России с фильтрацией `filter(Author.country == 'Россия')`
+- **task3/task5.py** — модель `Book` (поля: id, title, pages, year, rating, price, author_id); создание таблицы `books`
+- **task3/task6.py** — добавление трёх книг («Война и мир», «Преступление и наказание», «1984»)
+- **task3/task7.py** — функция `print_books()`: вывод всех книг в формате `"Название" [год] N стр. (В среднем X руб за шт.)`
+- **task3/task8.py** — функция `print_books()`: вывод книг с фильтрацией `year > 1860 AND price <= 300`
+
+#### Инфраструктура (обновление)
+
+- **Dockerfile** — добавлена установка `sqlalchemy` через `pip install --no-cache-dir sqlalchemy`
+- **solution/run_all.sh** — добавлен раздел запуска задач 3.1–3.8; перед запуском удаляется `library.db` для чистого старта
+- **docs/index.html** — добавлен раздел «Задачи №3 — ORM с SQLAlchemy» с 8 карточками задач
+
+#### Документация (обновление)
+
+- **README.md** — обновлено описание (три набора задач, инструкции для task3, SQLAlchemy в технологиях)
+- **CHANGELOG.md** — добавлена запись v1.1.0
+
+---
+
 ## [v1.0.0] — 2026-05-21
 
 Финальная версия лабораторной работы.

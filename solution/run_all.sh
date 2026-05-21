@@ -118,5 +118,47 @@ printf "alice\nqwerty123\nbob\nwrong_password\ncharlie\n" \
 
 echo ""
 echo "============================================"
+echo "  Задачи №3 — ORM с SQLAlchemy"
+echo "============================================"
+
+TASK3=/app/solution/task3
+
+# Чистый старт: удаляем БД если осталась от прошлого запуска
+rm -f "$TASK3/library.db"
+
+echo ""
+echo "--- Задача 3.1: Создание модели Author ---"
+python3 "$TASK3/task1.py"
+
+echo ""
+echo "--- Задача 3.2: Добавление трёх авторов ---"
+python3 "$TASK3/task2.py"
+
+echo ""
+echo "--- Задача 3.3: Вывод всех авторов ---"
+python3 "$TASK3/task3.py"
+
+echo ""
+echo "--- Задача 3.4: Вывод авторов из России ---"
+python3 "$TASK3/task4.py"
+
+echo ""
+echo "--- Задача 3.5: Создание модели Book ---"
+python3 "$TASK3/task5.py"
+
+echo ""
+echo "--- Задача 3.6: Добавление трёх книг ---"
+python3 "$TASK3/task6.py"
+
+echo ""
+echo "--- Задача 3.7: Вывод всех книг ---"
+python3 "$TASK3/task7.py"
+
+echo ""
+echo "--- Задача 3.8: Вывод книг после 1860 г. стоимостью до 300 руб. ---"
+python3 "$TASK3/task8.py"
+
+echo ""
+echo "============================================"
 echo "  Все задачи выполнены успешно!"
 echo "============================================"
