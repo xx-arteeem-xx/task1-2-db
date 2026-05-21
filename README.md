@@ -111,7 +111,7 @@ python solution/task3/task8.py  # Вывод книг с фильтрацией
 Если вы не хотите разворачивать проект локально — откройте страницу отчёта.  
 На ней собраны описания всех задач, код решений и результаты выполнения.
 
-**GitHub Pages:** [https://xx-arteeem-xx.github.io/task1-2](https://xx-arteeem-xx.github.io/task1-2)  
+**GitHub Pages:** [https://xx-arteeem-xx.github.io/task1-2-db](https://xx-arteeem-xx.github.io/task1-2-db)  
 *(или откройте `docs/index.html` локально в браузере)*
 
 ---
