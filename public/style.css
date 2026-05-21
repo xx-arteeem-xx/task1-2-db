@@ -1,0 +1,448 @@
+/* =============================================
+   Переменные и базовые стили
+   ============================================= */
+:root {
+  --bg: #080a11;
+  --surface: rgba(14, 18, 31, 0.72);
+  --border: rgba(125, 151, 199, 0.18);
+  --text: #eff3ff;
+  --heading: #f7f9ff;
+  --muted: rgba(229, 236, 255, 0.65);
+  --accent: #50c8ff;
+  --accent-bg: rgba(80, 200, 255, 0.12);
+  --accent-border: rgba(80, 200, 255, 0.25);
+  --success-bg: rgba(79, 184, 78, 0.12);
+  --success: #4fb84e;
+  --radius-lg: 1.5rem;
+  --radius-md: 1rem;
+  --radius-sm: 0.5rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(80, 200, 255, 0.10), transparent 30%),
+    radial-gradient(circle at 80% 0, rgba(23, 62, 172, 0.10), transparent 24%),
+    var(--bg);
+  min-height: 100vh;
+}
+
+/* =============================================
+   Шапка
+   ============================================= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8, 10, 17, 0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.85rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.site-header img.logo {
+  height: 36px;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+.site-header .header-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--heading);
+  letter-spacing: 0.01em;
+}
+
+.site-header .header-sub {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+
+/* =============================================
+   Основной контейнер
+   ============================================= */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+/* =============================================
+   Карточка (glassmorphism)
+   ============================================= */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px rgba(3, 8, 24, 0.18);
+  backdrop-filter: blur(16px);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.card-sm {
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-md);
+}
+
+/* =============================================
+   Типография
+   ============================================= */
+h1 { font-size: 2rem; color: var(--heading); margin-bottom: 0.5rem; }
+h2 { font-size: 1.35rem; color: var(--heading); margin-bottom: 1.25rem; }
+h3 { font-size: 1.1rem; color: var(--heading); margin-bottom: 0.75rem; }
+
+.section-kicker {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+p { color: var(--text); margin-bottom: 0.75rem; }
+p:last-child { margin-bottom: 0; }
+
+/* =============================================
+   Hero-блок
+   ============================================= */
+.hero {
+  text-align: center;
+  padding: 3rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, #f7f9ff 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero .hero-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.author-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.author-chip .sep {
+  color: var(--accent-border);
+}
+
+/* =============================================
+   Сетка задач
+   ============================================= */
+.tasks-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* =============================================
+   Карточка задачи
+   ============================================= */
+.task-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.task-card:hover {
+  border-color: var(--accent-border);
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.task-header:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.task-num {
+  flex-shrink: 0;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.task-title {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--heading);
+}
+
+.task-toggle {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+}
+
+.task-body {
+  display: none;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.task-body.open {
+  display: block;
+}
+
+.task-card.expanded .task-toggle {
+  transform: rotate(180deg);
+}
+
+/* =============================================
+   Табы
+   ============================================= */
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+}
+
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* =============================================
+   Блоки кода
+   ============================================= */
+pre {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: #c9d1e3;
+  margin: 0;
+}
+
+.kw  { color: #50c8ff; }
+.fn  { color: #7fd9ff; }
+.str { color: #a8e6cf; }
+.cmt { color: #6b7a9e; font-style: italic; }
+.num { color: #ffcb6b; }
+.op  { color: #c792ea; }
+
+/* =============================================
+   Вывод программы
+   ============================================= */
+.output-block {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(80, 200, 255, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #a8e6cf;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.output-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* =============================================
+   Описание задачи
+   ============================================= */
+.task-desc {
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+/* =============================================
+   Прогресс/timeline
+   ============================================= */
+.progress-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.progress-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.progress-list .check {
+  flex-shrink: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--success-bg);
+  border: 1px solid rgba(79, 184, 78, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: var(--success);
+  margin-top: 0.1rem;
+}
+
+/* =============================================
+   Инфо-сетка
+   ============================================= */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-cell {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
+}
+
+.info-cell .label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+.info-cell .value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--heading);
+}
+
+/* =============================================
+   Разделитель секций
+   ============================================= */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 3rem 0 1.5rem;
+}
+
+.section-title h2 {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.section-title .line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* =============================================
+   Футер
+   ============================================= */
+footer {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+/* =============================================
+   Адаптивность
+   ============================================= */
+@media (max-width: 768px) {
+  .container { padding: 1.5rem 1rem; }
+  .card { padding: 1.25rem; }
+  .hero h1 { font-size: 1.6rem; }
+  .site-header { padding: 0.75rem 1rem; }
+  .info-grid { grid-template-columns: 1fr 1fr; }
+}

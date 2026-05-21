@@ -1,0 +1,4 @@
+services:
+  solution:
+    build: .
+    container_name: sqlite_tasks

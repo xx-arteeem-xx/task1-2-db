@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Лабораторная работа — Python + SQLite | Фирсов Артем</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+<!-- ==================== ШАПКА ==================== -->
+<header class="site-header">
+  <img src="./logo.png" alt="Логотип" class="logo" />
+  <div>
+    <div class="header-title">Лабораторная работа — Python + SQLite</div>
+    <div class="header-sub">Работа с базами данных | Фирсов Артем · ИС302 · НГУЭУ</div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ==================== HERO ==================== -->
+  <div class="hero card">
+    <span class="section-kicker">Лабораторная работа</span>
+    <h1>Работа с базами данных SQLite на Python</h1>
+    <p class="hero-sub">Реализация SELECT-запросов и операций модификации данных с использованием стандартной библиотеки sqlite3</p>
+    <div class="author-chip">
+      Фирсов Артем
+      <span class="sep">·</span>
+      Группа ИС302
+      <span class="sep">·</span>
+      НГУЭУ
+    </div>
+  </div>
+
+  <!-- ==================== ИНФОРМАЦИЯ ==================== -->
+  <div class="card">
+    <span class="section-kicker">Общая информация</span>
+    <div class="info-grid">
+      <div class="info-cell">
+        <div class="label">Дисциплина</div>
+        <div class="value">Базы данных</div>
+      </div>
+      <div class="info-cell">
+        <div class="label">Язык</div>
+        <div class="value">Python 3</div>
+      </div>
+      <div class="info-cell">
+        <div class="label">СУБД</div>
+        <div class="value">SQLite</div>
+      </div>
+      <div class="info-cell">
+        <div class="label">Задач всего</div>
+        <div class="value">15</div>
+      </div>
+      <div class="info-cell">
+        <div class="label">Набор №1</div>
+        <div class="value">5 (SELECT)</div>
+      </div>
+      <div class="info-cell">
+        <div class="label">Набор №2</div>
+        <div class="value">10 (DML)</div>
+      </div>
+    </div>
+    <p>Все задачи реализованы на Python с использованием стандартного модуля <code>sqlite3</code>.
+    Задачи №1 выполняют SELECT-запросы к базам данных <code>films.db</code> и <code>music.db</code>.
+    Задачи №2 реализуют функции <code>get_result(name)</code> для модификации данных (INSERT/UPDATE/DELETE),
+    а также интерактивные системы регистрации и авторизации пользователей.</p>
+  </div>
+
+  <!-- ==================== ОПИСАНИЕ ЗАДАНИЯ ==================== -->
+  <div class="card">
+    <span class="section-kicker">Описание задания</span>
+    <h2>Условие</h2>
+
+    <h3>Задачи №1 — SELECT-запросы</h3>
+    <p>Для каждой задачи требуется написать программу, которая читает имя файла базы данных из стандартного ввода, выполняет запрос и выводит результаты построчно.</p>
+    <ul style="color:var(--text);padding-left:1.5rem;margin-bottom:1rem;line-height:2">
+      <li>1.1 — Фильмы жанров «музыка» и «анимация», вышедшие с 1997 года</li>
+      <li>1.2 — Фильмы, название которых заканчивается на «?»</li>
+      <li>1.3 — Уникальные годы выхода фильмов с названием на «Х»</li>
+      <li>1.4 — Комедии продолжительностью не менее 60 минут</li>
+      <li>1.5 — Уникальные треки исполнителя из music.db (алфавитный порядок)</li>
+    </ul>
+
+    <h3>Задачи №2 — Модификация данных</h3>
+    <p>Задачи 2.1–2.8 реализуются в виде функции <code>get_result(name)</code>, принимающей путь к файлу БД. Задачи 2.9–2.10 — интерактивные программы с бесконечным циклом.</p>
+    <ul style="color:var(--text);padding-left:1.5rem;margin-bottom:0;line-height:2">
+      <li>2.1 — Удалить все фильмы жанра «комедия»</li>
+      <li>2.2 — Установить длительность 42 мин для записей без значения</li>
+      <li>2.3 — Удвоить длительность всех фильмов «фантастика»</li>
+      <li>2.4 — Удалить фильмы с названием на «Я» и оканчивающиеся на «а»</li>
+      <li>2.5 — Удалить боевики продолжительностью ≥ 90 мин</li>
+      <li>2.6 — Установить максимум 100 мин для мюзиклов</li>
+      <li>2.7 — Уменьшить длительность фильмов 1973 года втрое</li>
+      <li>2.8 — Удалить фантастику до 2000 г. с длительностью &gt; 90 мин</li>
+      <li>2.9 — Система регистрации пользователей с проверкой уникальности</li>
+      <li>2.10 — Система авторизации с конкретными сообщениями об ошибках</li>
+    </ul>
+  </div>
+
+  <!-- ==================== ХОД ВЫПОЛНЕНИЯ ==================== -->
+  <div class="card">
+    <span class="section-kicker">Ход выполнения</span>
+    <h2>Этапы работы</h2>
+    <ul class="progress-list">
+      <li>
+        <span class="check">✓</span>
+        <span>Изучена структура баз данных <code>films.db</code> и <code>music.db</code>: таблицы, поля, типы данных, связи</span>
+      </li>
+      <li>
+        <span class="check">✓</span>
+        <span>Написаны и протестированы 5 скриптов для задач №1 — SELECT-запросы с JOIN, DISTINCT, ORDER BY, LIKE, фильтрацией по жанру и дате</span>
+      </li>
+      <li>
+        <span class="check">✓</span>
+        <span>Написаны 8 функций <code>get_result(name)</code> для задач 2.1–2.8 — UPDATE и DELETE операции с использованием подзапросов по жанру, году и длительности</span>
+      </li>
+      <li>
+        <span class="check">✓</span>
+        <span>Реализованы задачи 2.9 и 2.10: система регистрации и авторизации с хранением данных в SQLite и валидацией входных данных</span>
+      </li>
+      <li>
+        <span class="check">✓</span>
+        <span>Настроена Docker-среда: Dockerfile, docker-compose.yml, скрипт <code>run_all.sh</code> для последовательного запуска всех 15 задач с тестовыми данными</span>
+      </li>
+      <li>
+        <span class="check">✓</span>
+        <span>Все задачи успешно запущены в Docker и проверены на тестовой базе данных</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ==================== ЗАДАЧИ №1 ==================== -->
+  <div class="section-title">
+    <h2>Задачи №1 — SELECT-запросы</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="tasks-grid">
+
+    <!-- Task 1.1 -->
+    <div class="task-card" id="t1-1">
+      <div class="task-header" onclick="toggleTask('t1-1')">
+        <div class="task-num">1.1</div>
+        <div class="task-title">Фильмы жанров «музыка» и «анимация» с 1997 года</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t1-1">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t1-1','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t1-1','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t1-1','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t1-1','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t1-1-desc">
+          <p class="task-desc">Написать программу, которая читает имя файла базы данных из стандартного ввода. Программа выполняет запрос к базе и выводит названия фильмов жанров <strong>«музыка»</strong> и <strong>«анимация»</strong>, вышедших <strong>не ранее 1997 года</strong>. Каждое название — на отдельной строке.</p>
+        </div>
+        <div class="tab-panel" id="t1-1-code">
+<pre>import sqlite3
+
+db_name = input()
+conn = sqlite3.connect(db_name)
+cur = conn.cursor()
+cur.execute("""
+    SELECT m.title
+    FROM movies m
+    JOIN genres g ON m.genre_id = g.id
+    WHERE g.name IN ('музыка', 'анимация') AND m.year >= 1997
+""")
+for (title,) in cur.fetchall():
+    print(title)
+conn.close()</pre>
+        </div>
+        <div class="tab-panel" id="t1-1-sql">
+<pre>SELECT m.title
+FROM movies m
+JOIN genres g ON m.genre_id = g.id
+WHERE g.name IN ('музыка', 'анимация')
+  AND m.year >= 1997</pre>
+        </div>
+        <div class="tab-panel" id="t1-1-out">
+          <div class="output-block">(нет вывода)</div>
+          <p class="output-note">В тестовой базе данных жанры «музыка» и «анимация» отсутствуют. Программа корректна — запрос работает с любой БД, содержащей указанные жанры.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 1.2 -->
+    <div class="task-card" id="t1-2">
+      <div class="task-header" onclick="toggleTask('t1-2')">
+        <div class="task-num">1.2</div>
+        <div class="task-title">Фильмы, название которых заканчивается на «?»</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t1-2">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t1-2','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t1-2','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t1-2','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t1-2','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t1-2-desc">
+          <p class="task-desc">Написать программу, которая читает имя файла базы данных из стандартного ввода. Программа выполняет запрос и выводит названия всех фильмов, <strong>оканчивающихся на знак вопроса</strong>. Каждое название — на отдельной строке.</p>
+        </div>
+        <div class="tab-panel" id="t1-2-code">
+<pre>import sqlite3
+
+db_name = input()
+conn = sqlite3.connect(db_name)
+cur = conn.cursor()
+cur.execute("SELECT title FROM movies WHERE title LIKE '%?'")
+for (title,) in cur.fetchall():
+    print(title)
+conn.close()</pre>
+        </div>
+        <div class="tab-panel" id="t1-2-sql">
+<pre>SELECT title
+FROM movies
+WHERE title LIKE '%?'</pre>
+        </div>
+        <div class="tab-panel" id="t1-2-out">
+          <div class="output-block">Почему он?
+Сколько у тебя?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 1.3 -->
+    <div class="task-card" id="t1-3">
+      <div class="task-header" onclick="toggleTask('t1-3')">
+        <div class="task-num">1.3</div>
+        <div class="task-title">Годы выхода фильмов с названием на «Х» (без дублей)</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t1-3">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t1-3','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t1-3','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t1-3','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t1-3','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t1-3-desc">
+          <p class="task-desc">Написать программу, которая читает имя файла базы данных из стандартного ввода. Программа выполняет запрос и выводит список <strong>уникальных годов</strong>, в которых были выпущены фильмы, чьё название начинается с буквы <strong>«Х»</strong>. Каждый год — на отдельной строке.</p>
+        </div>
+        <div class="tab-panel" id="t1-3-code">
+<pre>import sqlite3
+
+db_name = input()
+conn = sqlite3.connect(db_name)
+cur = conn.cursor()
+cur.execute(
+    "SELECT DISTINCT year FROM movies WHERE title LIKE 'Х%' ORDER BY year"
+)
+for (year,) in cur.fetchall():
+    print(year)
+conn.close()</pre>
+        </div>
+        <div class="tab-panel" id="t1-3-sql">
+<pre>SELECT DISTINCT year
+FROM movies
+WHERE title LIKE 'Х%'
+ORDER BY year</pre>
+        </div>
+        <div class="tab-panel" id="t1-3-out">
+          <div class="output-block">1966
+1987
+1995
+2003
+2004
+2005
+2006
+2007
+2008
+2009
+2010
+2011
+2012
+2013
+2014
+2015
+2016
+2017
+2018
+2019
+2020
+2022
+2023</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 1.4 -->
+    <div class="task-card" id="t1-4">
+      <div class="task-header" onclick="toggleTask('t1-4')">
+        <div class="task-num">1.4</div>
+        <div class="task-title">Комедии продолжительностью не менее 60 минут</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t1-4">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t1-4','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t1-4','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t1-4','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t1-4','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t1-4-desc">
+          <p class="task-desc">Написать программу, которая читает имя файла базы данных из стандартного ввода. Программа выполняет запрос и выводит названия всех фильмов жанра <strong>«комедия»</strong> с продолжительностью <strong>не менее 60 минут</strong>. Каждое название — на отдельной строке.</p>
+        </div>
+        <div class="tab-panel" id="t1-4-code">
+<pre>import sqlite3
+
+db_name = input()
+conn = sqlite3.connect(db_name)
+cur = conn.cursor()
+cur.execute("""
+    SELECT m.title
+    FROM movies m
+    JOIN genres g ON m.genre_id = g.id
+    WHERE g.name = 'комедия' AND m.duration >= 60
+""")
+for (title,) in cur.fetchall():
+    print(title)
+conn.close()</pre>
+        </div>
+        <div class="tab-panel" id="t1-4-sql">
+<pre>SELECT m.title
+FROM movies m
+JOIN genres g ON m.genre_id = g.id
+WHERE g.name = 'комедия'
+  AND m.duration >= 60</pre>
+        </div>
+        <div class="tab-panel" id="t1-4-out">
+          <div class="output-block">Один дома
+Иван Васильевич меняет профессию
+Операция «Ы» и другие приключения Шурика
+Джентльмены удачи
+Бриллиантовая рука
+Кавказская пленница, или Новые приключения Шурика
+Холоп
+Один дома 2: Затерянный в Нью-Йорке
+Круэлла
+Батя
+... (всего 100+ записей)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 1.5 -->
+    <div class="task-card" id="t1-5">
+      <div class="task-header" onclick="toggleTask('t1-5')">
+        <div class="task-num">1.5</div>
+        <div class="task-title">Уникальные треки исполнителя из music.db</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t1-5">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t1-5','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t1-5','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t1-5','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t1-5','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t1-5-desc">
+          <p class="task-desc">Написать программу, которая читает путь к базе данных и имя исполнителя из стандартного ввода. Программа выводит все <strong>уникальные названия треков</strong> данного исполнителя в <strong>алфавитном порядке</strong>. Каждый трек — на отдельной строке. Используется база данных <code>music.db</code> со связанными таблицами <code>Artist</code> → <code>Album</code> → <code>Track</code>.</p>
+        </div>
+        <div class="tab-panel" id="t1-5-code">
+<pre>import sqlite3
+
+db_name = input()
+artist_name = input()
+conn = sqlite3.connect(db_name)
+cur = conn.cursor()
+cur.execute("""
+    SELECT DISTINCT t.Name
+    FROM Track t
+    JOIN Album al ON t.AlbumId = al.AlbumId
+    JOIN Artist ar ON al.ArtistId = ar.ArtistId
+    WHERE ar.Name = ?
+    ORDER BY t.Name
+""", (artist_name,))
+for (name,) in cur.fetchall():
+    print(name)
+conn.close()</pre>
+        </div>
+        <div class="tab-panel" id="t1-5-sql">
+<pre>SELECT DISTINCT t.Name
+FROM Track t
+JOIN Album al ON t.AlbumId = al.AlbumId
+JOIN Artist ar ON al.ArtistId = ar.ArtistId
+WHERE ar.Name = ?
+ORDER BY t.Name</pre>
+        </div>
+        <div class="tab-panel" id="t1-5-out">
+          <div class="output-block">-- Ввод: Led Zeppelin --
+Achilles Last Stand
+All My Love
+Babe I'm Gonna Leave You
+Black Country Woman
+Black Dog
+Black Mountain Side
+Bonzo's Montreux
+Boogie With Stu
+Bring It On Home
+Bron-Y-Aur Stomp
+... (всего 114 треков)</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tasks-grid -->
+
+  <!-- ==================== ЗАДАЧИ №2 ==================== -->
+  <div class="section-title">
+    <h2>Задачи №2 — Модификация данных</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="tasks-grid">
+
+    <!-- Task 2.1 -->
+    <div class="task-card" id="t2-1">
+      <div class="task-header" onclick="toggleTask('t2-1')">
+        <div class="task-num">2.1</div>
+        <div class="task-title">Удаление всех фильмов жанра «комедия»</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t2-1">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t2-1','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t2-1','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t2-1','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t2-1','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t2-1-desc">
+          <p class="task-desc">Написать функцию <code>get_result(name)</code>, принимающую путь к файлу базы данных. Функция удаляет все записи из таблицы <code>movies</code>, жанр которых — <strong>«комедия»</strong>.</p>
+        </div>
+        <div class="tab-panel" id="t2-1-code">
+<pre>import sqlite3
+
+
+def get_result(name):
+    conn = sqlite3.connect(name)
+    cur = conn.cursor()
+    cur.execute(
+        "DELETE FROM movies "
+        "WHERE genre_id = (SELECT id FROM genres WHERE name = 'комедия')"
+    )
+    conn.commit()
+    conn.close()
+
+
+if __name__ == '__main__':
+    name = input()
+    get_result(name)</pre>
+        </div>
+        <div class="tab-panel" id="t2-1-sql">
+<pre>DELETE FROM movies
+WHERE genre_id = (
+    SELECT id FROM genres WHERE name = 'комедия'
+)</pre>
+        </div>
+        <div class="tab-panel" id="t2-1-out">
+          <div class="output-block">До операции:  197 фильмов жанра «комедия»
+После операции: 0 фильмов жанра «комедия»</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2.2 -->
+    <div class="task-card" id="t2-2">
+      <div class="task-header" onclick="toggleTask('t2-2')">
+        <div class="task-num">2.2</div>
+        <div class="task-title">Установка длительности 42 мин для записей без значения</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t2-2">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t2-2','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t2-2','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t2-2','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t2-2','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t2-2-desc">
+          <p class="task-desc">Написать функцию <code>get_result(name)</code>, которая устанавливает значение длительности <strong>42 минуты</strong> для всех фильмов, у которых поле <code>duration</code> равно <code>NULL</code>.</p>
+        </div>
+        <div class="tab-panel" id="t2-2-code">
+<pre>import sqlite3
+
+
+def get_result(name):
+    conn = sqlite3.connect(name)
+    cur = conn.cursor()
+    cur.execute("UPDATE movies SET duration = 42 WHERE duration IS NULL")
+    conn.commit()
+    conn.close()
+
+
+if __name__ == '__main__':
+    name = input()
+    get_result(name)</pre>
+        </div>
+        <div class="tab-panel" id="t2-2-sql">
+<pre>UPDATE movies
+SET duration = 42
+WHERE duration IS NULL</pre>
+        </div>
+        <div class="tab-panel" id="t2-2-out">
+          <div class="output-block">До операции:  305 фильмов с duration = NULL
+После операции: 0 фильмов с duration = NULL</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2.3 -->
+    <div class="task-card" id="t2-3">
+      <div class="task-header" onclick="toggleTask('t2-3')">
+        <div class="task-num">2.3</div>
+        <div class="task-title">Удвоение длительности фильмов «фантастика»</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t2-3">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t2-3','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t2-3','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t2-3','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t2-3','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t2-3-desc">
+          <p class="task-desc">Написать функцию <code>get_result(name)</code>, которая <strong>удваивает</strong> значение поля <code>duration</code> для всех фильмов жанра <strong>«фантастика»</strong>.</p>
+        </div>
+        <div class="tab-panel" id="t2-3-code">
+<pre>import sqlite3
+
+
+def get_result(name):
+    conn = sqlite3.connect(name)
+    cur = conn.cursor()
+    cur.execute(
+        "UPDATE movies SET duration = duration * 2 "
+        "WHERE genre_id = (SELECT id FROM genres WHERE name = 'фантастика')"
+    )
+    conn.commit()
+    conn.close()
+
+
+if __name__ == '__main__':
+    name = input()
+    get_result(name)</pre>
+        </div>
+        <div class="tab-panel" id="t2-3-sql">
+<pre>UPDATE movies
+SET duration = duration * 2
+WHERE genre_id = (
+    SELECT id FROM genres WHERE name = 'фантастика'
+)</pre>
+        </div>
+        <div class="tab-panel" id="t2-3-out">
+          <div class="output-block">Средняя длительность фантастики до:  123.0 мин
+Средняя длительность фантастики после: 246.1 мин</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2.4 -->
+    <div class="task-card" id="t2-4">
+      <div class="task-header" onclick="toggleTask('t2-4')">
+        <div class="task-num">2.4</div>
+        <div class="task-title">Удаление фильмов на «Я» и «а»</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t2-4">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t2-4','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t2-4','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t2-4','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t2-4','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t2-4-desc">
+          <p class="task-desc">Написать функцию <code>get_result(name)</code>, которая удаляет все фильмы, чьё название <strong>начинается на «Я»</strong> и <strong>оканчивается на «а»</strong>.</p>
+        </div>
+        <div class="tab-panel" id="t2-4-code">
+<pre>import sqlite3
+
+
+def get_result(name):
+    conn = sqlite3.connect(name)
+    cur = conn.cursor()
+    cur.execute("DELETE FROM movies WHERE title LIKE 'Я%а'")
+    conn.commit()
+    conn.close()
+
+
+if __name__ == '__main__':
+    name = input()
+    get_result(name)</pre>
+        </div>
+        <div class="tab-panel" id="t2-4-sql">
+<pre>DELETE FROM movies
+WHERE title LIKE 'Я%а'</pre>
+        </div>
+        <div class="tab-panel" id="t2-4-out">
+          <div class="output-block">До операции:  1 фильм подходит под шаблон 'Я%а'
+После операции: 0 фильмов</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2.5 -->
+    <div class="task-card" id="t2-5">
+      <div class="task-header" onclick="toggleTask('t2-5')">
+        <div class="task-num">2.5</div>
+        <div class="task-title">Удаление боевиков с длительностью ≥ 90 минут</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t2-5">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t2-5','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t2-5','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t2-5','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t2-5','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t2-5-desc">
+          <p class="task-desc">Написать функцию <code>get_result(name)</code>, которая удаляет все фильмы жанра <strong>«боевик»</strong> с длительностью <strong>90 минут и более</strong>.</p>
+        </div>
+        <div class="tab-panel" id="t2-5-code">
+<pre>import sqlite3
+
+
+def get_result(name):
+    conn = sqlite3.connect(name)
+    cur = conn.cursor()
+    cur.execute(
+        "DELETE FROM movies "
+        "WHERE genre_id = (SELECT id FROM genres WHERE name = 'боевик') "
+        "AND duration >= 90"
+    )
+    conn.commit()
+    conn.close()
+
+
+if __name__ == '__main__':
+    name = input()
+    get_result(name)</pre>
+        </div>
+        <div class="tab-panel" id="t2-5-sql">
+<pre>DELETE FROM movies
+WHERE genre_id = (
+    SELECT id FROM genres WHERE name = 'боевик'
+)
+AND duration >= 90</pre>
+        </div>
+        <div class="tab-panel" id="t2-5-out">
+          <div class="output-block">До операции:  210 боевиков с duration >= 90
+После операции: 0 таких записей</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2.6 -->
+    <div class="task-card" id="t2-6">
+      <div class="task-header" onclick="toggleTask('t2-6')">
+        <div class="task-num">2.6</div>
+        <div class="task-title">Ограничение длительности мюзиклов до 100 минут</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t2-6">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t2-6','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t2-6','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t2-6','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t2-6','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t2-6-desc">
+          <p class="task-desc">Написать функцию <code>get_result(name)</code>, которая устанавливает длительность ровно <strong>100 минут</strong> для всех мюзиклов, у которых длительность <strong>превышает 100 минут</strong>.</p>
+        </div>
+        <div class="tab-panel" id="t2-6-code">
+<pre>import sqlite3
+
+
+def get_result(name):
+    conn = sqlite3.connect(name)
+    cur = conn.cursor()
+    cur.execute(
+        "UPDATE movies SET duration = 100 "
+        "WHERE genre_id = (SELECT id FROM genres WHERE name = 'мюзикл') "
+        "AND duration > 100"
+    )
+    conn.commit()
+    conn.close()
+
+
+if __name__ == '__main__':
+    name = input()
+    get_result(name)</pre>
+        </div>
+        <div class="tab-panel" id="t2-6-sql">
+<pre>UPDATE movies
+SET duration = 100
+WHERE genre_id = (
+    SELECT id FROM genres WHERE name = 'мюзикл'
+)
+AND duration > 100</pre>
+        </div>
+        <div class="tab-panel" id="t2-6-out">
+          <div class="output-block">До операции:  10 мюзиклов с duration > 100
+После операции: 0 мюзиклов с duration > 100</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2.7 -->
+    <div class="task-card" id="t2-7">
+      <div class="task-header" onclick="toggleTask('t2-7')">
+        <div class="task-num">2.7</div>
+        <div class="task-title">Уменьшение длительности фильмов 1973 года втрое</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t2-7">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t2-7','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t2-7','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t2-7','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t2-7','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t2-7-desc">
+          <p class="task-desc">Написать функцию <code>get_result(name)</code>, которая уменьшает длительность всех фильмов <strong>1973 года</strong> в <strong>три раза</strong> (целочисленное деление).</p>
+        </div>
+        <div class="tab-panel" id="t2-7-code">
+<pre>import sqlite3
+
+
+def get_result(name):
+    conn = sqlite3.connect(name)
+    cur = conn.cursor()
+    cur.execute("UPDATE movies SET duration = duration / 3 WHERE year = 1973")
+    conn.commit()
+    conn.close()
+
+
+if __name__ == '__main__':
+    name = input()
+    get_result(name)</pre>
+        </div>
+        <div class="tab-panel" id="t2-7-sql">
+<pre>UPDATE movies
+SET duration = duration / 3
+WHERE year = 1973</pre>
+        </div>
+        <div class="tab-panel" id="t2-7-out">
+          <div class="output-block">Средняя длительность фильмов 1973 года до:  77.6 мин
+Средняя длительность фильмов 1973 года после: 25.6 мин</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2.8 -->
+    <div class="task-card" id="t2-8">
+      <div class="task-header" onclick="toggleTask('t2-8')">
+        <div class="task-num">2.8</div>
+        <div class="task-title">Удаление фантастики до 2000 г. с длительностью &gt; 90 мин</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t2-8">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t2-8','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t2-8','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t2-8','sql')">SQL-запрос</button>
+          <button class="tab-btn" onclick="switchTab('t2-8','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t2-8-desc">
+          <p class="task-desc">Написать функцию <code>get_result(name)</code>, которая удаляет все фильмы жанра <strong>«фантастика»</strong>, вышедшие <strong>до 2000 года</strong>, с длительностью <strong>более 90 минут</strong>.</p>
+        </div>
+        <div class="tab-panel" id="t2-8-code">
+<pre>import sqlite3
+
+
+def get_result(name):
+    conn = sqlite3.connect(name)
+    cur = conn.cursor()
+    cur.execute(
+        "DELETE FROM movies "
+        "WHERE genre_id = (SELECT id FROM genres WHERE name = 'фантастика') "
+        "AND year &lt; 2000 AND duration &gt; 90"
+    )
+    conn.commit()
+    conn.close()
+
+
+if __name__ == '__main__':
+    name = input()
+    get_result(name)</pre>
+        </div>
+        <div class="tab-panel" id="t2-8-sql">
+<pre>DELETE FROM movies
+WHERE genre_id = (
+    SELECT id FROM genres WHERE name = 'фантастика'
+)
+AND year &lt; 2000
+AND duration &gt; 90</pre>
+        </div>
+        <div class="tab-panel" id="t2-8-out">
+          <div class="output-block">До операции:  29 фильмов фантастика, year &lt; 2000, duration &gt; 90
+После операции: 0 таких записей</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2.9 -->
+    <div class="task-card" id="t2-9">
+      <div class="task-header" onclick="toggleTask('t2-9')">
+        <div class="task-num">2.9</div>
+        <div class="task-title">Система регистрации пользователей</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t2-9">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t2-9','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t2-9','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t2-9','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t2-9-desc">
+          <p class="task-desc">Реализовать систему регистрации пользователей с хранением данных в SQLite (файл <code>users.db</code>). Программа работает в <strong>бесконечном цикле</strong>.</p>
+          <ul style="color:var(--text);padding-left:1.5rem;margin-top:0.5rem;line-height:1.9">
+            <li>Проверяет уникальность <strong>имени пользователя</strong></li>
+            <li>Проверяет уникальность <strong>email</strong></li>
+            <li>Требует <strong>подтверждения пароля</strong></li>
+            <li>Выводит сообщение об успешной регистрации или конкретную ошибку</li>
+          </ul>
+        </div>
+        <div class="tab-panel" id="t2-9-code">
+<pre>import sqlite3
+import os
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'users.db')
+
+
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+
+def register():
+    init_db()
+    while True:
+        try:
+            username = input('Введите имя пользователя: ')
+        except EOFError:
+            break
+
+        conn = sqlite3.connect(DB_PATH)
+        cur = conn.cursor()
+        cur.execute('SELECT id FROM users WHERE username = ?', (username,))
+        if cur.fetchone():
+            print('Пользователь с таким именем уже существует')
+            conn.close()
+            continue
+
+        try:
+            email = input('Введите email: ')
+        except EOFError:
+            conn.close()
+            break
+
+        cur.execute('SELECT id FROM users WHERE email = ?', (email,))
+        if cur.fetchone():
+            print('Пользователь с таким email уже существует')
+            conn.close()
+            continue
+
+        try:
+            password = input('Введите пароль: ')
+            confirm = input('Подтвердите пароль: ')
+        except EOFError:
+            conn.close()
+            break
+
+        if password != confirm:
+            print('Пароли не совпадают')
+            conn.close()
+            continue
+
+        cur.execute(
+            'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
+            (username, email, password)
+        )
+        conn.commit()
+        conn.close()
+        print('Регистрация успешна')
+
+
+if __name__ == '__main__':
+    register()</pre>
+        </div>
+        <div class="tab-panel" id="t2-9-out">
+          <div class="output-block">Введите имя пользователя: alice
+Введите email: alice@example.com
+Введите пароль: qwerty123
+Подтвердите пароль: qwerty123
+Регистрация успешна
+
+Введите имя пользователя: bob
+Введите email: bob@example.com
+Введите пароль: secret
+Подтвердите пароль: secret
+Регистрация успешна
+
+Введите имя пользователя: alice
+Пользователь с таким именем уже существует</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task 2.10 -->
+    <div class="task-card" id="t2-10">
+      <div class="task-header" onclick="toggleTask('t2-10')">
+        <div class="task-num">2.10</div>
+        <div class="task-title">Система авторизации пользователей</div>
+        <div class="task-toggle">▼</div>
+      </div>
+      <div class="task-body" id="body-t2-10">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('t2-10','desc')">Описание</button>
+          <button class="tab-btn" onclick="switchTab('t2-10','code')">Код решения</button>
+          <button class="tab-btn" onclick="switchTab('t2-10','out')">Результат</button>
+        </div>
+        <div class="tab-panel active" id="t2-10-desc">
+          <p class="task-desc">Реализовать систему авторизации пользователей. Программа работает в <strong>бесконечном цикле</strong>.</p>
+          <ul style="color:var(--text);padding-left:1.5rem;margin-top:0.5rem;line-height:1.9">
+            <li>Принимает <strong>имя пользователя</strong> и <strong>пароль</strong></li>
+            <li>При отсутствии пользователя: <em>«Пользователь не найден»</em></li>
+            <li>При неверном пароле: <em>«Неверный пароль»</em></li>
+            <li>При успешном входе: <em>«Вход выполнен»</em></li>
+          </ul>
+        </div>
+        <div class="tab-panel" id="t2-10-code">
+<pre>import sqlite3
+import os
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'users.db')
+
+
+def login():
+    while True:
+        try:
+            username = input('Введите имя пользователя: ')
+        except EOFError:
+            break
+
+        conn = sqlite3.connect(DB_PATH)
+        cur = conn.cursor()
+        cur.execute('SELECT password FROM users WHERE username = ?', (username,))
+        row = cur.fetchone()
+        conn.close()
+
+        if not row:
+            print('Пользователь не найден')
+            continue
+
+        try:
+            password = input('Введите пароль: ')
+        except EOFError:
+            break
+
+        if password != row[0]:
+            print('Неверный пароль')
+        else:
+            print('Вход выполнен')
+
+
+if __name__ == '__main__':
+    login()</pre>
+        </div>
+        <div class="tab-panel" id="t2-10-out">
+          <div class="output-block">Введите имя пользователя: alice
+Введите пароль: qwerty123
+Вход выполнен
+
+Введите имя пользователя: bob
+Введите пароль: wrong_password
+Неверный пароль
+
+Введите имя пользователя: charlie
+Пользователь не найден</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tasks-grid -->
+
+</main>
+
+<!-- ==================== ФУТЕР ==================== -->
+<footer>
+  <p>Лабораторная работа по базам данных · Фирсов Артем · ИС302 · НГУЭУ · 2026</p>
+</footer>
+
+<!-- ==================== JS ==================== -->
+<script>
+  function toggleTask(id) {
+    const card = document.getElementById(id);
+    const body = document.getElementById('body-' + id);
+    const isOpen = card.classList.toggle('expanded');
+    body.classList.toggle('open', isOpen);
+  }
+
+  function switchTab(taskId, tab) {
+    const body = document.getElementById('body-' + taskId);
+    body.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    body.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    body.querySelector('.tab-panel#' + taskId + '-' + tab).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
